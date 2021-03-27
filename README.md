@@ -10,3 +10,5 @@
 - Git
 - Visual studio 2019
 - SQL 2019
+
+**Together coding, Hell Yeah!**
