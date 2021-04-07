@@ -42,6 +42,7 @@
             this.txtThoiGianLamBai = new System.Windows.Forms.TextBox();
             this.txtMonThi = new System.Windows.Forms.TextBox();
             this.MainGroupBox = new System.Windows.Forms.GroupBox();
+            this.lsvMessage = new System.Windows.Forms.ListView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmdChonClientPath = new System.Windows.Forms.Button();
             this.cmdChon = new System.Windows.Forms.Button();
@@ -56,8 +57,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.lstDeThi = new System.Windows.Forms.ListBox();
-            this.lsvMessage = new System.Windows.Forms.ListView();
-            this.tbMessage = new System.Windows.Forms.TextBox();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.MainGroupBox.SuspendLayout();
@@ -197,7 +196,6 @@
             // 
             // MainGroupBox
             // 
-            this.MainGroupBox.Controls.Add(this.tbMessage);
             this.MainGroupBox.Controls.Add(this.lsvMessage);
             this.MainGroupBox.Location = new System.Drawing.Point(184, 10);
             this.MainGroupBox.Name = "MainGroupBox";
@@ -205,6 +203,15 @@
             this.MainGroupBox.TabIndex = 51;
             this.MainGroupBox.TabStop = false;
             this.MainGroupBox.Text = "Danh Sách Các Máy Tính Trong Phòng Máy";
+            // 
+            // lsvMessage
+            // 
+            this.lsvMessage.HideSelection = false;
+            this.lsvMessage.Location = new System.Drawing.Point(6, 19);
+            this.lsvMessage.Name = "lsvMessage";
+            this.lsvMessage.Size = new System.Drawing.Size(659, 274);
+            this.lsvMessage.TabIndex = 0;
+            this.lsvMessage.UseCompatibleStateImageBehavior = false;
             // 
             // groupBox3
             // 
@@ -336,6 +343,7 @@
             this.button3.TabIndex = 31;
             this.button3.Text = "Thêm Đề Thi";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // lstDeThi
             // 
@@ -350,22 +358,6 @@
             this.lstDeThi.Name = "lstDeThi";
             this.lstDeThi.Size = new System.Drawing.Size(240, 108);
             this.lstDeThi.TabIndex = 30;
-            // 
-            // lsvMessage
-            // 
-            this.lsvMessage.HideSelection = false;
-            this.lsvMessage.Location = new System.Drawing.Point(6, 19);
-            this.lsvMessage.Name = "lsvMessage";
-            this.lsvMessage.Size = new System.Drawing.Size(659, 274);
-            this.lsvMessage.TabIndex = 0;
-            this.lsvMessage.UseCompatibleStateImageBehavior = false;
-            // 
-            // tbMessage
-            // 
-            this.tbMessage.Location = new System.Drawing.Point(19, 365);
-            this.tbMessage.Name = "tbMessage";
-            this.tbMessage.Size = new System.Drawing.Size(262, 20);
-            this.tbMessage.TabIndex = 1;
             // 
             // Form1
             // 
@@ -385,7 +377,6 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.MainGroupBox.ResumeLayout(false);
-            this.MainGroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -427,7 +418,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox lstDeThi;
         private System.Windows.Forms.ListView lsvMessage;
-        private System.Windows.Forms.TextBox tbMessage;
     }
 }
 

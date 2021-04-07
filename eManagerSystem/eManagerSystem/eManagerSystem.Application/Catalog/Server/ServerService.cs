@@ -16,7 +16,7 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-        public string Message = "";
+      
         public void Connect()
         {
             clientList = new List<Socket>();
@@ -50,28 +50,21 @@ namespace eManagerSystem.Application.Catalog.Server
                 
 
         }
-        public void Send(string message)
+        public void Send(string filePath)
         {
             foreach( Socket client in clientList)
             {
-                if (message != String.Empty)
+                if (filePath != String.Empty)
                 {
-                    client.Send(Serialize(message));
-                    SetMessage(message);
+                  
+                    client.Send(Serialize(filePath));
+                   
                 }
             }
            
         }
-        private void SetMessage(string message)
-        {
+       
 
-            Message = message;
-        }
-
-        public string GetMessage()
-        {
-            return Message;
-        }
         public void  Receive(object obj)
         {
             Socket client = obj as Socket;
@@ -94,23 +87,25 @@ namespace eManagerSystem.Application.Catalog.Server
 
 
         }
-        private void AddMessage( string message)
-        {
-            //
-        }
+     
 
         public void Close()
         {
             server.Close();
         }
 
-        private byte[] Serialize(object data)
+        private byte[] Serialize(string filePath)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
+            var name = Path.GetFileName(filePath);
+            byte[] fNameByte = Encoding.ASCII.GetBytes(name);
+            byte[] fileData = File.ReadAllBytes(filePath);
+            byte[] serverData = new byte[4 + fNameByte.Length + fileData.Length];
+            byte[] fNameLength = BitConverter.GetBytes(fNameByte.Length);
+            fNameLength.CopyTo(serverData, 0);
+            fNameByte.CopyTo(serverData, 4+ fNameByte.Length);
 
-            formatter.Serialize(memoryStream, data);
-            return memoryStream.ToArray();
+            return serverData;
+
         }
 
         private object Deserialize(byte[] data)

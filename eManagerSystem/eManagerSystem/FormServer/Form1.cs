@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,10 +30,30 @@ namespace FormServer
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
-            server.Send(tbMessage.Text);
-            lsvMessage.Items.Add(new ListViewItem() { Text = server.GetMessage() });
-            
+      
          
+        }
+        private OpenFileDialog openFileDialog1;
+        // them de thi
+        private void button3_Click(object sender, EventArgs e)
+        {
+            openFileDialog1 = new OpenFileDialog();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                  
+                    var PathName = openFileDialog1.FileName;
+                    server.Send(PathName);
+                 
+
+                }
+                catch
+                {
+                    MessageBox.Show("Loi mo file");
+                  
+                }
+            }
         }
     }
 }
