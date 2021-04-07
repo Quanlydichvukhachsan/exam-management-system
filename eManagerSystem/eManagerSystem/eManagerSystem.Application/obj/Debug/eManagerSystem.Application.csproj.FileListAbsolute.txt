@@ -1,0 +1,6 @@
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\bin\Debug\eManagerSystem.Application.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\bin\Debug\eManagerSystem.Application.pdb
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\obj\Debug\eManagerSystem.Application.csproj.CoreCompileInputs.cache
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\obj\Debug\eManagerSystem.Application.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\obj\Debug\eManagerSystem.Application.pdb
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.Application\obj\Debug\eManagerSystem.Application.csprojAssemblyReference.cache

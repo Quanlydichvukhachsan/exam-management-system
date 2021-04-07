@@ -1,0 +1,13 @@
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\FormServer.exe.config
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\FormServer.exe
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\FormServer.pdb
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.csprojAssemblyReference.cache
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.Properties.Resources.resources
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.csproj.GenerateResource.cache
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.csproj.CoreCompileInputs.cache
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.exe
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.pdb
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.Form1.resources
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\eManagerSystem.Application.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\eManagerSystem.Application.pdb
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.csproj.CopyComplete
