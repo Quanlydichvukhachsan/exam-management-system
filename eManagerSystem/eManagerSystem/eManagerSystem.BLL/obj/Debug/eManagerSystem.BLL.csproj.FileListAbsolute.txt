@@ -1,6 +1,0 @@
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\bin\Debug\eManagerSystem.BLL.dll
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\bin\Debug\eManagerSystem.BLL.pdb
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\obj\Debug\eManagerSystem.BLL.csprojAssemblyReference.cache
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\obj\Debug\eManagerSystem.BLL.csproj.CoreCompileInputs.cache
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\obj\Debug\eManagerSystem.BLL.dll
-D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\eManagerSystem.BLL\obj\Debug\eManagerSystem.BLL.pdb
