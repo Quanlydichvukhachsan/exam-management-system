@@ -11,3 +11,13 @@ D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug
 D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\eManagerSystem.Application.dll
 D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\eManagerSystem.Application.pdb
 D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\obj\Debug\FormServer.csproj.CopyComplete
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Dev\exam-management-system\eManagerSystem\eManagerSystem\FormServer\bin\Debug\System.Threading.Tasks.Extensions.xml

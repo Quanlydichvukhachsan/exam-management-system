@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace eManagerSystem.Application.Catalog.Server
 {
-    interface IServerService
+   public interface IServerService
     {
+         void Connect();
+         void Send(string filePath);
+
+        void Receive(object obj);
+
+        void Close();
+
+        byte[] GetFilePath(string filePath);
+
+        object Deserialize(byte[] data);
+
+
     }
 }

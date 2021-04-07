@@ -13,10 +13,11 @@ namespace FormServer
 {
     public partial class Form1 : Form
     {
-        ServerService server = new ServerService();
-        public Form1()
+       // ServerService server = new ServerService();
+        IServerService _server;
+        public Form1(IServerService server)
         {
-           
+            _server = server;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
           
@@ -25,7 +26,7 @@ namespace FormServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            server.Connect();
+            _server.Connect();
         }
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
@@ -44,7 +45,7 @@ namespace FormServer
                 {
                   
                     var PathName = openFileDialog1.FileName;
-                    server.Send(PathName);
+                    _server.Send(PathName);
                  
 
                 }
