@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.lblTimeLeft = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.cmdNhapVungIP = new System.Windows.Forms.Button();
             this.cmdKichHoatAllClient = new System.Windows.Forms.Button();
             this.cmdBatDauLamBai = new System.Windows.Forms.Button();
@@ -58,6 +61,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.lstDeThi = new System.Windows.Forms.ListBox();
             this.groupBox4.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.MainGroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -67,6 +71,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.cmdNhapVungIP);
             this.groupBox4.Controls.Add(this.cmdKichHoatAllClient);
             this.groupBox4.Controls.Add(this.cmdBatDauLamBai);
@@ -81,6 +86,35 @@
             this.groupBox4.TabIndex = 53;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Chức Năng";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lblTimeLeft);
+            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Location = new System.Drawing.Point(12, 373);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(143, 94);
+            this.groupBox6.TabIndex = 1;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Thời gian còn lại";
+            // 
+            // lblTimeLeft
+            // 
+            this.lblTimeLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeLeft.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblTimeLeft.Location = new System.Drawing.Point(28, 38);
+            this.lblTimeLeft.Name = "lblTimeLeft";
+            this.lblTimeLeft.Size = new System.Drawing.Size(83, 36);
+            this.lblTimeLeft.TabIndex = 1;
+            this.lblTimeLeft.Text = "00 : 00";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(47, 38);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 13);
+            this.label4.TabIndex = 0;
             // 
             // cmdNhapVungIP
             // 
@@ -108,6 +142,7 @@
             this.cmdBatDauLamBai.TabIndex = 44;
             this.cmdBatDauLamBai.Text = "Bắt Đầu Làm Bài";
             this.cmdBatDauLamBai.UseVisualStyleBackColor = true;
+            this.cmdBatDauLamBai.Visible = false;
             this.cmdBatDauLamBai.Click += new System.EventHandler(this.cmdBatDauLamBai_Click);
             // 
             // button6
@@ -175,6 +210,7 @@
             this.cmdChapNhan.TabIndex = 29;
             this.cmdChapNhan.Text = "Chấp Nhận";
             this.cmdChapNhan.UseVisualStyleBackColor = true;
+            this.cmdChapNhan.Click += new System.EventHandler(this.cmdChapNhan_Click);
             // 
             // txtThoiGianLamBai
             // 
@@ -374,6 +410,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.MainGroupBox.ResumeLayout(false);
@@ -418,6 +456,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox lstDeThi;
         private System.Windows.Forms.ListView lsvMessage;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label lblTimeLeft;
+        private System.Windows.Forms.Label label4;
     }
 }
 

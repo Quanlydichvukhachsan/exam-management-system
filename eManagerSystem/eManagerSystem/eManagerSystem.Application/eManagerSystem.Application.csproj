@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Catalog\begin\BeginExamService.cs" />
-    <Compile Include="Catalog\begin\IBeginExamServie.cs" />
+    <Compile Include="Catalog\Begin\BeginExamService.cs" />
+    <Compile Include="Catalog\Begin\IBeginExamServie.cs" />
     <Compile Include="Catalog\Examination\ExaminationService.cs" />
     <Compile Include="Catalog\Examination\IExaminationService.cs" />
     <Compile Include="Catalog\Message\IMessageService.cs" />

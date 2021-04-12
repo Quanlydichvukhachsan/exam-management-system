@@ -16,7 +16,8 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-      
+        public object Data { get; set; }
+
         public void Connect()
         {
             clientList = new List<Socket>();
@@ -103,6 +104,13 @@ namespace eManagerSystem.Application.Catalog.Server
             return serverData;
         }
 
+        public byte[] Serialize(object data)
+        {
+            MemoryStream stream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, data);
+            return stream.ToArray();
+        }
         public object Deserialize(byte[] data)
         {
             MemoryStream stream = new MemoryStream(data);
@@ -110,6 +118,32 @@ namespace eManagerSystem.Application.Catalog.Server
             formatter.Deserialize(stream);
             return stream;
         }
-     
+        public int BeginExam(string inputTime, int counter, System.Timers.Timer countdown)
+        {
+           
+         
+            int minute = Convert.ToInt32(inputTime);
+            counter = minute * 60;
+            countdown.Enabled = true;
+
+            this.Data = minute;
+            Byte[] buffer = Serialize(this.Data);
+
+            foreach (Socket client in clientList)
+            {
+                try
+                {
+                    client.Send(buffer);
+                }
+                catch (Exception ex)
+                {
+                    clientList.Remove(client);
+                    client.Close();
+                }
+            }
+            return counter;
+        }
+
+
     }
 }
