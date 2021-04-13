@@ -8,8 +8,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -20,8 +18,9 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-       private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
-
+        //  private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+        private readonly string strCon = @"SERVER=PC334;Database =ExamManagement ;Integrated security = true";
+       
 
         public void Connect()
         {
