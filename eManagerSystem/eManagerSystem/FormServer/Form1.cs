@@ -35,7 +35,8 @@ namespace FormServer
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
-          //  _server.Send("fdf");
+         
+
 
         }
         private OpenFileDialog openFileDialog1;
@@ -49,7 +50,7 @@ namespace FormServer
                 {
 
                     var PathName = openFileDialog1.FileName;
-                    _server.Send(PathName);
+                    _server.SendFile(PathName);
 
 
                 }
@@ -75,7 +76,7 @@ namespace FormServer
             _students = args.studentsDelegate;
             AddListUser(_students);
             LoadDisPlayUser();
-
+            _server.SendUser("Send User", _students);
         }
 
         private void LoadDisPlayUser()

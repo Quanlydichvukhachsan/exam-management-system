@@ -10,7 +10,8 @@ namespace eManagerSystem.Application.Catalog.Server
    public interface IServerService
     {
          void Connect();
-         void Send(string filePath);
+         void SendFile(string filePath);
+        void SendUser(string option,List<Students> students);
 
         void Receive(object obj);
 

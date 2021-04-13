@@ -55,7 +55,7 @@ namespace eManagerSystem.Application.Catalog.Server
                 
 
         }
-        public void Send(string filePath)
+        public void SendFile(string filePath)
         {
             foreach( Socket client in clientList)
             {
@@ -66,10 +66,10 @@ namespace eManagerSystem.Application.Catalog.Server
                         option = Serialize("Send File"),
                         data = GetFilePath(filePath)
                     };
-
                     client.Send(Serialize(sendData));
-                 
                    
+
+
                 }
             }
            
@@ -204,6 +204,23 @@ namespace eManagerSystem.Application.Catalog.Server
 
             }
             return listGrades;
+        }
+
+        public void SendUser(string option,List<Students> students)
+        {
+            foreach (Socket client in clientList)
+            {
+                if (option != String.Empty)
+                {
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize("Send User"),
+                        data = Serialize(students)
+                    };
+                    client.Send(Serialize(sendData));
+
+                }
+            }
         }
     }
 }

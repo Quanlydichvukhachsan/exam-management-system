@@ -78,6 +78,7 @@ namespace FormServer
         private void btnOK_Click(object sender, EventArgs e)
         {
             Updates();
+            this.Hide();
         }
     }
 }

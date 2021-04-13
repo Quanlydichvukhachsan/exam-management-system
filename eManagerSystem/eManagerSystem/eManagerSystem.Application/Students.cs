@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace eManagerSystem.Application
 {
+    [Serializable]
    public class Students
     {
         public int Id { get; set; }
