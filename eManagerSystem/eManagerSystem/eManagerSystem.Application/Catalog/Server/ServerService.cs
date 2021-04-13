@@ -18,8 +18,8 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-        //  private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
-        private readonly string strCon = @"SERVER=PC334;Database =ExamManagement ;Integrated security = true";
+          private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+     //   private readonly string strCon = @"SERVER=PC334;Database =ExamManagement ;Integrated security = true";
        
 
         public void Connect()
@@ -61,8 +61,14 @@ namespace eManagerSystem.Application.Catalog.Server
             {
                 if (filePath != String.Empty)
                 {
-                  
-                    client.Send(GetFilePath(filePath));
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize("Send File"),
+                        data = GetFilePath(filePath)
+                    };
+
+                    client.Send(Serialize(sendData));
+                 
                    
                 }
             }
@@ -127,6 +133,16 @@ namespace eManagerSystem.Application.Catalog.Server
             }
         }
 
+        private byte[] Serialize(object data)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(memoryStream, data);
+            memoryStream.Close();
+            return memoryStream.ToArray();
+        }
+
 
         public DataTable ExcuteDataReader(string query, object[] para = null)
         {
@@ -159,9 +175,9 @@ namespace eManagerSystem.Application.Catalog.Server
 
         }
 
-        public IEnumerable<Students> readAll()
+        public IEnumerable<Students> readAll(int gradeId)
         {
-            DataTable dataTable = ExcuteDataReader("usp_getAllStudent");
+            DataTable dataTable = ExcuteDataReader("usp_getAllStudentBySubject @gradeId", new object[] { gradeId });
             List<Students> listStudents = new List<Students>();
             foreach (DataRow row in dataTable.Rows)
             {
@@ -172,9 +188,22 @@ namespace eManagerSystem.Application.Catalog.Server
             return listStudents;
         }
 
-        public List<Students> ReadAll()
+        public List<Students> ReadAll(int gradeId)
         {
-            return (List<Students>)readAll();
+            return (List<Students>)readAll(gradeId);
+        }
+
+        public IEnumerable<Grade> getAllGrade()
+        {
+            DataTable dataTable = ExcuteDataReader("usp_getGrade");
+            List<Grade> listGrades = new List<Grade>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Grade grades = new Grade(row);
+                listGrades.Add(grades);
+
+            }
+            return listGrades;
         }
     }
 }

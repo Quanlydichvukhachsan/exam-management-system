@@ -36,7 +36,8 @@ namespace FormServer
           
             services.AddScoped<Form1>()
                 .AddTransient<IServerService,ServerService>();
-           
+            services.AddScoped<Form2>()
+                .AddTransient<IServerService, ServerService>();
 
         }
     }

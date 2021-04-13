@@ -20,7 +20,8 @@ namespace eManagerSystem.Application.Catalog.Server
 
         object Deserialize(byte[] data);
 
-        List<Students> ReadAll();
+        List<Students> ReadAll(int gradeId);
 
+        IEnumerable<Grade> getAllGrade();
     }
 }

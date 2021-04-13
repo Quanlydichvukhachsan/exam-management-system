@@ -29,7 +29,7 @@ namespace eManagerSystem.Application
             LastName = row["LastName"].ToString();
             MSSV = int.Parse(row["MSSV"].ToString());
             CurrentGradeId = int.Parse(row["CurrentGradeId"].ToString());
-            CurrentSubjectId = int.Parse(row["CurrentSubjectId"].ToString());
+           
 
         }
     }
