@@ -9,6 +9,10 @@ using System.Net.Sockets;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Data;
+
 namespace eManagerSystem.Application.Catalog.Server
 {
    public class ServerService : IServerService
@@ -16,12 +20,14 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-      
+       private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+
+
         public void Connect()
         {
             clientList = new List<Socket>();
             IP = new IPEndPoint(IPAddress.Any, 9999);
-            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Bind(IP);
 
             Thread Listen = new Thread(() =>
@@ -41,7 +47,7 @@ namespace eManagerSystem.Application.Catalog.Server
                 catch
                 {
                     IP = new IPEndPoint(IPAddress.Any, 9999);
-                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 }
               
             });
@@ -110,6 +116,66 @@ namespace eManagerSystem.Application.Catalog.Server
             formatter.Deserialize(stream);
             return stream;
         }
-     
+
+        private void hasParameter(SqlCommand cmd, string query, object[] para = null)
+        {
+            int i = 0;
+            foreach (string parameter in query.Split(' ').ToArray().Where(p => p.Contains('@')))
+            {
+                cmd.Parameters.AddWithValue(parameter, para[i]);
+
+                i++;
+            }
+        }
+
+
+        public DataTable ExcuteDataReader(string query, object[] para = null)
+        {
+            try
+            {
+                DataTable data = new DataTable();
+                using (SqlConnection conn = new SqlConnection(strCon))
+                {
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    if (para != null)
+                    {
+
+                        {
+                            hasParameter(cmd, query, para);
+                        }
+
+                    }
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(data);
+
+
+                }
+                return data;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+
+        }
+
+        public IEnumerable<Students> readAll()
+        {
+            DataTable dataTable = ExcuteDataReader("usp_getAllStudent");
+            List<Students> listStudents = new List<Students>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Students students = new Students(row);
+                listStudents.Add(students);
+            
+            }
+            return listStudents;
+        }
+
+        public List<Students> ReadAll()
+        {
+            return (List<Students>)readAll();
+        }
     }
 }

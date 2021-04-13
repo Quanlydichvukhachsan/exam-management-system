@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace eManagerSystem.Application.Catalog.Server
 
         object Deserialize(byte[] data);
 
+        List<Students> ReadAll();
 
     }
 }

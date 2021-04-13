@@ -16,7 +16,7 @@ namespace eManagerSystem.Data.EF
         public eManagerSystemDbContext() :base("StudentDBConnectString")
         {
           
-            Database.SetInitializer<eManagerSystemDbContext>(new CreateDatabaseIfNotExists<eManagerSystemDbContext>());
+          Database.SetInitializer<eManagerSystemDbContext>(new CreateDatabaseIfNotExists<eManagerSystemDbContext>());
         }
        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
