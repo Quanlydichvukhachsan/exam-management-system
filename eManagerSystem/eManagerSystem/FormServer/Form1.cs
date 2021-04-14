@@ -14,23 +14,46 @@ namespace FormServer
 {
     public partial class Form1 : Form
     {
-        // ServerService server = new ServerService();
+
+
         IServerService _server;
         private List<PC> listUser = new List<PC>();
         List<Students> _students;
         private Color ColorRed = Color.FromArgb(255, 95, 79);
+        private Color ColorGreen = Color.FromArgb(54, 202, 56);
         public Form1(IServerService server)
         {
             _server = server;
+            _server.EventUpdateHandler += _server_EventUpdateHandler;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
 
 
         }
+        private void UpdateUserControll(string mssv)
+        {
+            foreach(var items in listUser)
+            {
+                if (items.MSSV == mssv)
+                {
+                    items.ColorUser = ColorGreen;   
+                    
+                } 
+             }
+            LoadDisPlayUser();
+
+        }
+        
+
+        private void _server_EventUpdateHandler(object sender, ServerService.UpdateEventArgs args)
+        {
+            UpdateUserControll(args.mssv);
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             _server.Connect();
+            
         }
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
@@ -39,6 +62,8 @@ namespace FormServer
 
 
         }
+
+
         private OpenFileDialog openFileDialog1;
         // them de thi
         private void button3_Click(object sender, EventArgs e)
@@ -50,6 +75,7 @@ namespace FormServer
                 {
 
                     var PathName = openFileDialog1.FileName;
+                    lstDeThi.Items.Add(PathName);
                     _server.SendFile(PathName);
 
 
@@ -62,7 +88,6 @@ namespace FormServer
                 }
             }
         }
-
         private void button10_Click(object sender, EventArgs e)
         {
             IEnumerable<Grade> grades = _server.getAllGrade();
@@ -74,8 +99,8 @@ namespace FormServer
         private void Form2_EventUpdateHandler(object sender, Form2.UpdateEventArgs args)
         {
             _students = args.studentsDelegate;
-            AddListUser(_students);
-            LoadDisPlayUser();
+           // AddListUser(_students);
+          //  LoadDisPlayUser();
             _server.SendUser("Send User", _students);
         }
 
@@ -104,6 +129,24 @@ namespace FormServer
                 }
             }
 
+        }
+
+        private void cbCbonMonThi_Click(object sender, EventArgs e)
+        {
+        
+            IEnumerable<Subject> subjects = _server.getAllSubject();
+            cbCbonMonThi.DataSource = subjects;
+            cbCbonMonThi.DisplayMember = "SubjectName";
+            cbCbonMonThi.ValueMember = "SubjectId";
+        }
+
+        private void cmdChapNhan_Click(object sender, EventArgs e)
+        {
+            if(cbCbonMonThi.Text != string.Empty)
+            {
+                _server.SendSubject(cbCbonMonThi.Text);
+            }
+          
         }
     }
 }

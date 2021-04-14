@@ -14,11 +14,8 @@ namespace eManagerSystem.Application
 
         public Grade(DataRow row)
         {
-
             GradeId = int.Parse(row["GradeId"].ToString());
-            GradeName = row["GradeName"].ToString();
-          
-
+            GradeName = row["GradeName"].ToString();        
         }
     }
 }

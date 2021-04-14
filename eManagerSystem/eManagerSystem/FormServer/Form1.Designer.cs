@@ -40,13 +40,12 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cmdChapNhan = new System.Windows.Forms.Button();
             this.txtThoiGianLamBai = new System.Windows.Forms.TextBox();
-            this.txtMonThi = new System.Windows.Forms.TextBox();
             this.MainGroupBox = new System.Windows.Forms.GroupBox();
+            this.flowLayoutContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmdChonClientPath = new System.Windows.Forms.Button();
             this.cmdChon = new System.Windows.Forms.Button();
             this.txtClientPath = new System.Windows.Forms.TextBox();
-            this.txtServerPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -56,7 +55,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.lstDeThi = new System.Windows.Forms.ListBox();
-            this.flowLayoutContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.tbSErverPath = new System.Windows.Forms.TextBox();
+            this.cbCbonMonThi = new System.Windows.Forms.ComboBox();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.MainGroupBox.SuspendLayout();
@@ -158,9 +158,9 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.cbCbonMonThi);
             this.groupBox5.Controls.Add(this.cmdChapNhan);
             this.groupBox5.Controls.Add(this.txtThoiGianLamBai);
-            this.groupBox5.Controls.Add(this.txtMonThi);
             this.groupBox5.Location = new System.Drawing.Point(664, 499);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(239, 150);
@@ -176,6 +176,7 @@
             this.cmdChapNhan.TabIndex = 29;
             this.cmdChapNhan.Text = "Chấp Nhận";
             this.cmdChapNhan.UseVisualStyleBackColor = true;
+            this.cmdChapNhan.Click += new System.EventHandler(this.cmdChapNhan_Click);
             // 
             // txtThoiGianLamBai
             // 
@@ -185,15 +186,6 @@
             this.txtThoiGianLamBai.TabIndex = 28;
             this.txtThoiGianLamBai.Text = "120";
             this.txtThoiGianLamBai.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtMonThi
-            // 
-            this.txtMonThi.Location = new System.Drawing.Point(11, 21);
-            this.txtMonThi.Name = "txtMonThi";
-            this.txtMonThi.Size = new System.Drawing.Size(203, 20);
-            this.txtMonThi.TabIndex = 28;
-            this.txtMonThi.Text = "Chọn Môn Thi";
-            this.txtMonThi.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainGroupBox
             // 
@@ -205,12 +197,20 @@
             this.MainGroupBox.TabStop = false;
             this.MainGroupBox.Text = "Danh Sách Các Máy Tính Trong Phòng Máy";
             // 
+            // flowLayoutContainer
+            // 
+            this.flowLayoutContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutContainer.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutContainer.Name = "flowLayoutContainer";
+            this.flowLayoutContainer.Size = new System.Drawing.Size(860, 454);
+            this.flowLayoutContainer.TabIndex = 0;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cmdChonClientPath);
             this.groupBox3.Controls.Add(this.cmdChon);
+            this.groupBox3.Controls.Add(this.tbSErverPath);
             this.groupBox3.Controls.Add(this.txtClientPath);
-            this.groupBox3.Controls.Add(this.txtServerPath);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(4, 499);
@@ -245,14 +245,6 @@
             this.txtClientPath.Size = new System.Drawing.Size(120, 20);
             this.txtClientPath.TabIndex = 34;
             this.txtClientPath.Text = "C:\\tam";
-            // 
-            // txtServerPath
-            // 
-            this.txtServerPath.Location = new System.Drawing.Point(12, 36);
-            this.txtServerPath.Name = "txtServerPath";
-            this.txtServerPath.Size = new System.Drawing.Size(120, 20);
-            this.txtServerPath.TabIndex = 34;
-            this.txtServerPath.Text = "c:\\serverPath";
             // 
             // label3
             // 
@@ -351,13 +343,22 @@
             this.lstDeThi.Size = new System.Drawing.Size(240, 108);
             this.lstDeThi.TabIndex = 30;
             // 
-            // flowLayoutContainer
+            // tbSErverPath
             // 
-            this.flowLayoutContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutContainer.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutContainer.Name = "flowLayoutContainer";
-            this.flowLayoutContainer.Size = new System.Drawing.Size(860, 454);
-            this.flowLayoutContainer.TabIndex = 0;
+            this.tbSErverPath.Location = new System.Drawing.Point(12, 36);
+            this.tbSErverPath.Name = "tbSErverPath";
+            this.tbSErverPath.Size = new System.Drawing.Size(120, 20);
+            this.tbSErverPath.TabIndex = 34;
+            this.tbSErverPath.Text = "C:\\tam";
+            // 
+            // cbCbonMonThi
+            // 
+            this.cbCbonMonThi.FormattingEnabled = true;
+            this.cbCbonMonThi.Location = new System.Drawing.Point(11, 25);
+            this.cbCbonMonThi.Name = "cbCbonMonThi";
+            this.cbCbonMonThi.Size = new System.Drawing.Size(203, 21);
+            this.cbCbonMonThi.TabIndex = 30;
+            this.cbCbonMonThi.Click += new System.EventHandler(this.cbCbonMonThi_Click);
             // 
             // Form1
             // 
@@ -401,13 +402,11 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button cmdChapNhan;
         private System.Windows.Forms.TextBox txtThoiGianLamBai;
-        private System.Windows.Forms.TextBox txtMonThi;
         private System.Windows.Forms.GroupBox MainGroupBox;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button cmdChonClientPath;
         private System.Windows.Forms.Button cmdChon;
         private System.Windows.Forms.TextBox txtClientPath;
-        private System.Windows.Forms.TextBox txtServerPath;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -418,6 +417,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox lstDeThi;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutContainer;
+        public System.Windows.Forms.TextBox txtServerPath;
+        private System.Windows.Forms.TextBox tbSErverPath;
+        private System.Windows.Forms.ComboBox cbCbonMonThi;
     }
 }
 

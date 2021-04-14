@@ -9,9 +9,7 @@ namespace eManagerSystem.Application
     [Serializable]
     public class SendData
     {
-       
-       
-       public byte[] option { get; set; }
+        public byte[] option { get; set; }
 
         public byte[] data { get; set; }
     }
