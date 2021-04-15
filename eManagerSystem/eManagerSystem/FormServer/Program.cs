@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
+
 namespace FormServer
 {
     
@@ -30,9 +33,12 @@ namespace FormServer
         }
         private static void ConfigureServices(ServiceCollection services)
         {
+          
             services.AddScoped<Form1>()
                 .AddTransient<IServerService,ServerService>();
-                   
+            services.AddScoped<Form2>()
+                .AddTransient<IServerService, ServerService>();
+
         }
     }
 }

@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,14 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Catalog\Examination\ExaminationService.cs" />
-    <Compile Include="Catalog\Examination\IExaminationService.cs" />
-    <Compile Include="Catalog\Message\IMessageService.cs" />
-    <Compile Include="Catalog\Message\MessageService.cs" />
     <Compile Include="Catalog\Server\IServerService.cs" />
     <Compile Include="Catalog\Server\ServerService.cs" />
+    <Compile Include="Grade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendData.cs" />
+    <Compile Include="Students.cs" />
+    <Compile Include="Subject.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

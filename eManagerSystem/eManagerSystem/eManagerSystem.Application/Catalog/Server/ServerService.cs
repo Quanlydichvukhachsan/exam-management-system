@@ -8,20 +8,28 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Data.SqlClient;
+using System.Data;
+using System.Windows.Forms;
 
 namespace eManagerSystem.Application.Catalog.Server
 {
-   public class ServerService : IServerService
+   public class ServerService  : IServerService 
     {
+       
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-      
+        private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+    
+ 
         public void Connect()
         {
             clientList = new List<Socket>();
+       
+        
             IP = new IPEndPoint(IPAddress.Any, 9999);
-            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Bind(IP);
 
             Thread Listen = new Thread(() =>
@@ -41,7 +49,7 @@ namespace eManagerSystem.Application.Catalog.Server
                 catch
                 {
                     IP = new IPEndPoint(IPAddress.Any, 9999);
-                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 }
               
             });
@@ -50,20 +58,42 @@ namespace eManagerSystem.Application.Catalog.Server
                 
 
         }
-        public void Send(string filePath)
+        public void SendFile(string filePath)
         {
             foreach( Socket client in clientList)
             {
                 if (filePath != String.Empty)
                 {
-                  
-                    client.Send(GetFilePath(filePath));
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize("Send File"),
+                        data = GetFilePath(filePath)
+                    };
+                    client.Send(Serialize(sendData));
                    
+
+
                 }
             }
            
         }
-       
+        public delegate void UpdateHandler(object sender, UpdateEventArgs args);
+        public event UpdateHandler EventUpdateHandler;
+        public class UpdateEventArgs : EventArgs
+        {
+            public string mssv { get; set; }
+
+        }
+        public void Updates(string MSSV)
+        {
+            UpdateEventArgs args = new UpdateEventArgs();
+         
+                args.mssv = MSSV;
+                EventUpdateHandler.Invoke(this, args);
+          
+
+        }
+        public string Messgase { get; set; }
 
         public void  Receive(object obj)
         {
@@ -73,14 +103,28 @@ namespace eManagerSystem.Application.Catalog.Server
                 while (true)
                 {
                     byte[] data = new byte[1024 * 5000];
-                    client.Receive(data);             
+                    client.Receive(data);
+                  SendData receiveData = new SendData();
+                   receiveData = (SendData)Deserialize(data);
+                    switch ((string)Deserialize(receiveData.option))
+                    {
+                        case "Send Accept":
+                           var mssv = (string)Deserialize(receiveData.data);
+                            Updates(mssv);
+                            break;
+                     
+                        default:
+                            break;
+                    }
+
                 }
-              
+
             }
-            catch
+            catch(Exception er)
             {
-                clientList.Remove(client);
-                client.Close();
+                throw er;
+              //  clientList.Remove(client);
+               // client.Close();
             }
         }
      
@@ -107,9 +151,140 @@ namespace eManagerSystem.Application.Catalog.Server
         {
             MemoryStream stream = new MemoryStream(data);
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Deserialize(stream);
-            return stream;
+           return formatter.Deserialize(stream);
+           
         }
-     
+
+        private void hasParameter(SqlCommand cmd, string query, object[] para = null)
+        {
+            int i = 0;
+            foreach (string parameter in query.Split(' ').ToArray().Where(p => p.Contains('@')))
+            {
+                cmd.Parameters.AddWithValue(parameter, para[i]);
+
+                i++;
+            }
+        }
+
+        private byte[] Serialize(object data)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(memoryStream, data);
+            memoryStream.Close();
+            return memoryStream.ToArray();
+        }
+
+
+        public DataTable ExcuteDataReader(string query, object[] para = null)
+        {
+            try
+            {
+                DataTable data = new DataTable();
+                using (SqlConnection conn = new SqlConnection(strCon))
+                {
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    if (para != null)
+                    {
+
+                        {
+                            hasParameter(cmd, query, para);
+                        }
+
+                    }
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(data);
+
+
+                }
+                return data;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+
+        }
+
+        public IEnumerable<Students> readAll(int gradeId)
+        {
+            DataTable dataTable = ExcuteDataReader("usp_getAllStudentBySubject @gradeId", new object[] { gradeId });
+            List<Students> listStudents = new List<Students>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Students students = new Students(row);
+                listStudents.Add(students);
+            
+            }
+            return listStudents;
+        }
+
+        public List<Students> ReadAll(int gradeId)
+        {
+            return (List<Students>)readAll(gradeId);
+        }
+
+        public IEnumerable<Grade> getAllGrade()
+        {
+            DataTable dataTable = ExcuteDataReader("usp_getGrade");
+            List<Grade> listGrades = new List<Grade>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Grade grades = new Grade(row);
+                listGrades.Add(grades);
+
+            }
+            return listGrades;
+        }
+
+   
+
+        public void SendUser(string option,List<Students> students)
+        {
+            foreach (Socket client in clientList)
+            {
+                if (option != String.Empty)
+                {
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize("Send User"),
+                        data = Serialize(students)
+                    };
+                    client.Send(Serialize(sendData));
+                }
+            }
+        }
+
+        public IEnumerable<Subject> getAllSubject()
+        {
+                DataTable dataTable = ExcuteDataReader("usp_getSubjects");
+                List<Subject> listSubject = new List<Subject>();
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    Subject subject = new Subject(row);
+                    listSubject.Add(subject);
+
+                }
+                return (IEnumerable<Subject>)listSubject;
+            
+        }
+
+        public void SendSubject(string subject)
+        {
+            foreach (Socket client in clientList)
+            {
+                if (subject != String.Empty)
+                {
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize("Send Subject"),
+                        data = Serialize(subject)
+                    };
+                    client.Send(Serialize(sendData));
+                }
+            }
+        }
     }
 }
