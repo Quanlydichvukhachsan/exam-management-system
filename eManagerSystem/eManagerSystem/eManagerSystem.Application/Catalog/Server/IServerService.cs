@@ -32,6 +32,8 @@ namespace eManagerSystem.Application.Catalog.Server
 
         IEnumerable<Subject> getAllSubject();
 
+        void SaveFile(byte[] data, int dataLength);
+        int BeginExam(string inputTime, int counter, System.Timers.Timer countdown);
 
     }
 }

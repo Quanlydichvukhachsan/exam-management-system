@@ -21,14 +21,31 @@ namespace FormServer
         List<Students> _students;
         private Color ColorRed = Color.FromArgb(255, 95, 79);
         private Color ColorGreen = Color.FromArgb(54, 202, 56);
+
+        int counter = 0;
+        System.Timers.Timer countdown;
         public Form1(IServerService server)
         {
             _server = server;
             _server.EventUpdateHandler += _server_EventUpdateHandler;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+            countdown = new System.Timers.Timer();
+            countdown.Interval = 1000;
+            countdown.Elapsed += Countdown_Elapsed;
 
-
+        }
+        private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            counter -= 1;
+            int minute = counter / 60;
+            int second = counter % 60;
+            lblTimeleft.Text = minute + " : " + second;
+            if (counter == 0)
+            {
+                countdown.Stop();
+               
+            }
         }
         private void UpdateUserControll(string mssv)
         {
@@ -58,8 +75,7 @@ namespace FormServer
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
-         
-
+          counter =  _server.BeginExam(txtThoiGianLamBai.Text,this.counter,countdown);
 
         }
 
@@ -99,8 +115,8 @@ namespace FormServer
         private void Form2_EventUpdateHandler(object sender, Form2.UpdateEventArgs args)
         {
             _students = args.studentsDelegate;
-           // AddListUser(_students);
-          //  LoadDisPlayUser();
+            AddListUser(_students);
+            LoadDisPlayUser();
             _server.SendUser("Send User", _students);
         }
 

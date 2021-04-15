@@ -19,7 +19,6 @@ namespace eManagerSystem.Application
   
         public int CurrentGradeId { get; set; }
       
-        public int CurrentSubjectId { get; set; }
 
 
         public Students(DataRow row)

@@ -20,9 +20,10 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-        private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
-    
- 
+        //    private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+          private readonly string strCon = @"SERVER=HAQUOCHUY\HQH;Database =[ExamManagement];Integrated security =true";
+
+
         public void Connect()
         {
             clientList = new List<Socket>();
@@ -40,7 +41,11 @@ namespace eManagerSystem.Application.Catalog.Server
                     {
                         server.Listen(100);
                         Socket client = server.Accept();
-                        clientList.Add(client);
+
+                        // 192.168.0.1:3000
+                    string ipClient = client.RemoteEndPoint.ToString().Split(':')[0];
+
+                        clientList.Add(client); 
                         Thread receive = new Thread(Receive);
                         receive.IsBackground = true;
                         receive.Start(client);
@@ -87,7 +92,7 @@ namespace eManagerSystem.Application.Catalog.Server
         public void Updates(string MSSV)
         {
             UpdateEventArgs args = new UpdateEventArgs();
-         
+              
                 args.mssv = MSSV;
                 EventUpdateHandler.Invoke(this, args);
           
@@ -112,7 +117,10 @@ namespace eManagerSystem.Application.Catalog.Server
                            var mssv = (string)Deserialize(receiveData.data);
                             Updates(mssv);
                             break;
-                     
+                        case "Send Exam":
+                            byte[] receiveBylength = (byte[])Deserialize(receiveData.data);
+                             SaveFile(receiveBylength, receiveBylength.Length);
+                            break;
                         default:
                             break;
                     }
@@ -285,6 +293,55 @@ namespace eManagerSystem.Application.Catalog.Server
                     client.Send(Serialize(sendData));
                 }
             }
+        }
+
+        public void SaveFile(byte[] data, int dataLength)
+        {
+            string pathSave = "D:/receive/";
+            int fileNameLength = BitConverter.ToInt32(data, 0);
+            string nameFile = Encoding.ASCII.GetString(data, 4, fileNameLength);
+            string nameFolder = Path.GetFileName(nameFile);
+            string root = pathSave + nameFolder;
+            if (!Directory.Exists(root))
+            {
+                Directory.CreateDirectory(root);
+            }
+            foreach (string Files in Directory.EnumerateFiles(nameFile))
+            {
+                string name = root + "/" + Path.GetFileName(Files);
+                BinaryWriter writer = new BinaryWriter(File.Open(name, FileMode.Append));
+                int count = dataLength - 4 - fileNameLength;
+                writer.Write(data, 4 + fileNameLength, count);
+            }
+           
+        }
+
+        public int BeginExam(string inputTime, int counter, System.Timers.Timer countdown)
+        {
+             int minute = Convert.ToInt32(inputTime);
+            counter = minute * 60;
+            countdown.Enabled = true;
+
+            SendData sendData = new SendData
+            {
+                option = Serialize("Send BeginExam"),
+                data = Serialize(minute),
+            };
+             
+
+            foreach (Socket client in clientList)
+            {
+                try
+                {
+                    client.Send(Serialize(sendData));
+                }
+                catch (Exception ex)
+                {
+                    clientList.Remove(client);
+                    client.Close();
+                }
+            }
+            return counter;
         }
     }
 }
