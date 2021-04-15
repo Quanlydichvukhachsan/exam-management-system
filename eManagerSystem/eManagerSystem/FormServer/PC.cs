@@ -17,7 +17,7 @@ namespace FormServer
             InitializeComponent();
         }
 
-       
+        public string clientIP { get; set; }
 
         private string _name;
         private string _MSSV;

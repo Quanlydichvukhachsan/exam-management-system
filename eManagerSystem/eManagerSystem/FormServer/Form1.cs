@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LinqToExcel;
 using eManagerSystem.Application;
 using eManagerSystem.Application.Catalog.Server;
 namespace FormServer
@@ -18,7 +19,9 @@ namespace FormServer
 
         IServerService _server;
         private List<PC> listUser = new List<PC>();
+        public List<string> listIP = new List<string>();
         List<Students> _students;
+        List<StudentFromExcel> studentFromExcels;
         private Color ColorRed = Color.FromArgb(255, 95, 79);
         private Color ColorGreen = Color.FromArgb(54, 202, 56);
 
@@ -27,7 +30,8 @@ namespace FormServer
         public Form1(IServerService server)
         {
             _server = server;
-            _server.EventUpdateHandler += _server_EventUpdateHandler;
+            _server.EventActiveHandler += _server_EventActiveHandler;
+         
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             countdown = new System.Timers.Timer();
@@ -35,6 +39,13 @@ namespace FormServer
             countdown.Elapsed += Countdown_Elapsed;
 
         }
+
+   
+        private void _server_EventActiveHandler(object sender, ServerService.ActiveEventArgs args)
+        {
+            UpdateUserControll(args.mssv);
+        }
+
         private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             counter -= 1;
@@ -51,21 +62,14 @@ namespace FormServer
         {
             foreach(var items in listUser)
             {
-                if (items.MSSV == mssv)
-                {
-                    items.ColorUser = ColorGreen;   
-                    
-                } 
+                items.MSSV = mssv;
+                items.ColorUser = ColorGreen;   
+                         
              }
             LoadDisPlayUser();
 
         }
-        
-
-        private void _server_EventUpdateHandler(object sender, ServerService.UpdateEventArgs args)
-        {
-            UpdateUserControll(args.mssv);
-        }
+       
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -115,8 +119,6 @@ namespace FormServer
         private void Form2_EventUpdateHandler(object sender, Form2.UpdateEventArgs args)
         {
             _students = args.studentsDelegate;
-            AddListUser(_students);
-            LoadDisPlayUser();
             _server.SendUser("Send User", _students);
         }
 
@@ -129,22 +131,15 @@ namespace FormServer
 
             }
         }
-        private void AddListUser(List<Students> students)
-        {
-            if (students.Count > 0)
-            {
-                int index = 0;
-                foreach (var items in students)
-                {
+        private void AddListUser(string clientIP)
+        {     
+                    int index = 0;    
                     index++;
                     PC pC = new PC();
-                    pC.MSSV = items.MSSV.ToString();
+                    pC.clientIP = clientIP;
                     pC.pcName = index.ToString();
                     pC.ColorUser = ColorRed;
                     listUser.Add(pC);
-                }
-            }
-
         }
 
         private void cbCbonMonThi_Click(object sender, EventArgs e)
@@ -163,6 +158,54 @@ namespace FormServer
                 _server.SendSubject(cbCbonMonThi.Text);
             }
           
+        }
+
+        private void cmdNhapVungIP_Click(object sender, EventArgs e)
+        {
+            FormSetIp formSetIp = new FormSetIp(listIP);
+            formSetIp.EventUpdateHandler += FormSetIp_EventUpdateHandler;
+            formSetIp.Show();
+        }
+
+        private void FormSetIp_EventUpdateHandler(object sender, FormSetIp.UpdateEventArgs args)
+        {
+           string IpClient = args.IPClient;
+            _server.SetIpUser(args._listIP);    
+            AddListUser(IpClient);
+            LoadDisPlayUser();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog oFile = new OpenFileDialog();
+            oFile.ShowDialog();
+            if(oFile.FileName != string.Empty)
+            {
+                string file = oFile.FileName;
+                string exetention = Path.GetExtension(file);
+                if(exetention.ToLower() ==".xls" || exetention.ToLower().Equals(".xlsx"))
+                {
+                    var excel = new ExcelQueryFactory(file);
+                    var students = from s in excel.Worksheet<StudentFromExcel>("Sheet1")
+                                  select s;
+                    studentFromExcels = new List<StudentFromExcel>();
+                    foreach (var item in students)
+                    {
+                        studentFromExcels.Add(item);
+                    }
+                    if (studentFromExcels.Count > 0)
+                    {
+                        SendStudentsFromExcel(studentFromExcels);
+                    }
+                  
+
+
+                }
+            }
+        }
+        private void SendStudentsFromExcel(List<StudentFromExcel> StudentFromExcels)
+        {
+            _server.SendUserFromFile("Send UserFromExcel", StudentFromExcels);
         }
     }
 }

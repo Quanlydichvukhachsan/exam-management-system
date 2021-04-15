@@ -42,9 +42,8 @@
             this.lbNamePC.AutoSize = true;
             this.lbNamePC.Location = new System.Drawing.Point(32, 13);
             this.lbNamePC.Name = "lbNamePC";
-            this.lbNamePC.Size = new System.Drawing.Size(35, 13);
+            this.lbNamePC.Size = new System.Drawing.Size(0, 13);
             this.lbNamePC.TabIndex = 0;
-            this.lbNamePC.Text = "label1";
             // 
             // lbMSSV
             // 
@@ -52,9 +51,8 @@
             this.lbMSSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMSSV.Location = new System.Drawing.Point(21, 104);
             this.lbMSSV.Name = "lbMSSV";
-            this.lbMSSV.Size = new System.Drawing.Size(46, 17);
+            this.lbMSSV.Size = new System.Drawing.Size(0, 17);
             this.lbMSSV.TabIndex = 1;
-            this.lbMSSV.Text = "label2";
             // 
             // pictureBox1
             // 

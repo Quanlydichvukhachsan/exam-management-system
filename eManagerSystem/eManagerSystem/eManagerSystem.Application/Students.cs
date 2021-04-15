@@ -18,8 +18,9 @@ namespace eManagerSystem.Application
         public int MSSV { get; set; }
   
         public int CurrentGradeId { get; set; }
-      
 
+ 
+        public Students() { }
 
         public Students(DataRow row)
         {

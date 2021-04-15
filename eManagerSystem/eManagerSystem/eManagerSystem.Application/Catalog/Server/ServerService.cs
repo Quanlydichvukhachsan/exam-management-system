@@ -20,8 +20,9 @@ namespace eManagerSystem.Application.Catalog.Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
-        //    private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
-          private readonly string strCon = @"SERVER=HAQUOCHUY\HQH;Database =[ExamManagement];Integrated security =true";
+        List<string> clientIP;
+          private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
+         // private readonly string strCon = @"SERVER=HAQUOCHUY\HQH;Database =[ExamManagement];Integrated security =true";
 
 
         public void Connect()
@@ -41,9 +42,7 @@ namespace eManagerSystem.Application.Catalog.Server
                     {
                         server.Listen(100);
                         Socket client = server.Accept();
-
-                        // 192.168.0.1:3000
-                    string ipClient = client.RemoteEndPoint.ToString().Split(':')[0];
+                    
 
                         clientList.Add(client); 
                         Thread receive = new Thread(Receive);
@@ -82,27 +81,14 @@ namespace eManagerSystem.Application.Catalog.Server
             }
            
         }
-        public delegate void UpdateHandler(object sender, UpdateEventArgs args);
-        public event UpdateHandler EventUpdateHandler;
-        public class UpdateEventArgs : EventArgs
-        {
-            public string mssv { get; set; }
-
-        }
-        public void Updates(string MSSV)
-        {
-            UpdateEventArgs args = new UpdateEventArgs();
-              
-                args.mssv = MSSV;
-                EventUpdateHandler.Invoke(this, args);
-          
-
-        }
+      
         public string Messgase { get; set; }
 
         public void  Receive(object obj)
         {
             Socket client = obj as Socket;
+
+           
             try
             {
                 while (true)
@@ -114,8 +100,11 @@ namespace eManagerSystem.Application.Catalog.Server
                     switch ((string)Deserialize(receiveData.option))
                     {
                         case "Send Accept":
-                           var mssv = (string)Deserialize(receiveData.data);
-                            Updates(mssv);
+                            // 192.168.0.1:3000
+                            string ipClient = client.RemoteEndPoint.ToString().Split(':')[0];
+                            var mssv = (string)Deserialize(receiveData.data);
+                            CheckActiveIpUser(ipClient,mssv);
+                          
                             break;
                         case "Send Exam":
                             byte[] receiveBylength = (byte[])Deserialize(receiveData.data);
@@ -131,7 +120,7 @@ namespace eManagerSystem.Application.Catalog.Server
             catch(Exception er)
             {
                 throw er;
-              //  clientList.Remove(client);
+             //   clientList.Remove(client);
                // client.Close();
             }
         }
@@ -249,7 +238,7 @@ namespace eManagerSystem.Application.Catalog.Server
 
    
 
-        public void SendUser(string option,List<Students> students)
+        public void SendUser(string option,IEnumerable<object> students)
         {
             foreach (Socket client in clientList)
             {
@@ -342,6 +331,101 @@ namespace eManagerSystem.Application.Catalog.Server
                 }
             }
             return counter;
+        }
+
+    
+        public void SetIpUser(List<string> listIP)
+        {
+            clientIP = new List<string>(listIP);         
+        }
+
+        public delegate void ActiveHandler(object sender, ActiveEventArgs args);
+        public event ActiveHandler EventActiveHandler;
+        public class ActiveEventArgs : EventArgs
+        {
+            public string mssv { get; set; }
+
+        }
+        public void ActiveUser(string MSSV)
+        {
+            ActiveEventArgs args = new ActiveEventArgs();
+
+            args.mssv = MSSV;
+            EventActiveHandler.Invoke(this, args);
+
+
+        }
+
+      
+        public void CheckActiveIpUser(string IP,string mssv)
+        {
+            if (clientIP != null)
+            {
+                if (clientIP.Any(ip => ip == IP) == true)
+                {
+                    ActiveUser(mssv);
+                    string message = "Chap nhan success!";
+                    SendMessage(message, IP, "Success");
+                }
+                else
+                {
+                    string message = "Loi dia chi IPAddress";
+                    SendMessage(message, IP, "Fail");
+
+                }
+            }
+         
+        }
+
+        public void SendMessage(string message,string IP,string type)
+        {
+            if(type == "Fail")
+            {
+                foreach (Socket client in clientList)
+                {
+                    string ipClient = client.RemoteEndPoint.ToString().Split(':')[0];
+                    if (ipClient == IP)
+                    {
+                        SendData sendData = new SendData
+                        {
+                            option = Serialize("Send Decline"),
+                            data = Serialize(message),
+                        };
+                        client.Send(Serialize(sendData));
+                        clientList.Remove(client);
+                        client.Close();
+                        break;
+                    }
+                }
+                
+            }
+            else
+            {
+               var client = clientList.Where(cli => cli.RemoteEndPoint.ToString().Split(':')[0] == IP).FirstOrDefault();
+                   SendData sendData = new SendData
+                {
+                    option = Serialize("Send Success"),
+                    data = Serialize(message),
+                };
+                client.Send(Serialize(sendData));
+            }
+         
+        }
+
+        public void SendUserFromFile(string option, IEnumerable<object> students)
+        {
+            foreach (Socket client in clientList)
+            {
+                if (option != String.Empty)
+                {
+                    SendData sendData = new SendData
+                    {
+                        option = Serialize(option),
+                        data = Serialize(students)
+                    };
+                    client.Send(Serialize(sendData));
+                }
+            }
         }
     }
 }

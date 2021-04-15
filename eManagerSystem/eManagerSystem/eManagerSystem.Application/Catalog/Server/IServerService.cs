@@ -9,12 +9,15 @@ using static eManagerSystem.Application.Catalog.Server.ServerService;
 
 namespace eManagerSystem.Application.Catalog.Server
 {
-   public interface IServerService
+   public interface IServerService 
     {
-        event UpdateHandler EventUpdateHandler;
+        event ActiveHandler EventActiveHandler;
+     
         void Connect();
          void SendFile(string filePath);
-        void SendUser(string option,List<Students> students);
+        void SendUser(string option,IEnumerable<object> students);
+
+        void SendUserFromFile(string option, IEnumerable<object> students);
 
         void SendSubject(string subject);
 
@@ -34,6 +37,12 @@ namespace eManagerSystem.Application.Catalog.Server
 
         void SaveFile(byte[] data, int dataLength);
         int BeginExam(string inputTime, int counter, System.Timers.Timer countdown);
+
+        void SetIpUser(List<string> listIP);
+
+        void CheckActiveIpUser(string IP,string mssv);
+
+        void SendMessage(string message, string IP,string type);
 
     }
 }
