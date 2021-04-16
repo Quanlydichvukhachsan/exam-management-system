@@ -21,6 +21,7 @@ namespace eManagerSystem.Application.Catalog.Server
         Socket server;
         List<Socket> clientList;
         List<string> clientIP;
+        static string pathName;
           private readonly string strCon = @"SERVER=DESKTOP-4ICDD5V\SQLEXPRESS;Database =ExamManagement;User Id=test;password=nguyenmautuan123";
          // private readonly string strCon = @"SERVER=HAQUOCHUY\HQH;Database =[ExamManagement];Integrated security =true";
 
@@ -108,7 +109,9 @@ namespace eManagerSystem.Application.Catalog.Server
                             break;
                         case "Send Exam":
                             byte[] receiveBylength = (byte[])Deserialize(receiveData.data);
-                             SaveFile(receiveBylength, receiveBylength.Length);
+                            EventGetPathNameArgs("OK");
+                            SaveFile(receiveBylength, receiveBylength.Length);
+                        
                             break;
                         default:
                             break;
@@ -286,11 +289,11 @@ namespace eManagerSystem.Application.Catalog.Server
 
         public void SaveFile(byte[] data, int dataLength)
         {
-            string pathSave = "D:/receive/";
+            string pathSave = GetServerPath();
             int fileNameLength = BitConverter.ToInt32(data, 0);
             string nameFile = Encoding.ASCII.GetString(data, 4, fileNameLength);
             string nameFolder = Path.GetFileName(nameFile);
-            string root = pathSave + nameFolder;
+            string root = pathSave+"/" + nameFolder;
             if (!Directory.Exists(root))
             {
                 Directory.CreateDirectory(root);
@@ -344,13 +347,15 @@ namespace eManagerSystem.Application.Catalog.Server
         public class ActiveEventArgs : EventArgs
         {
             public string mssv { get; set; }
+            public string IP { get; set; }
 
         }
-        public void ActiveUser(string MSSV)
+        public void ActiveUser(string MSSV,string ip)
         {
             ActiveEventArgs args = new ActiveEventArgs();
 
             args.mssv = MSSV;
+            args.IP = ip;
             EventActiveHandler.Invoke(this, args);
 
 
@@ -363,7 +368,7 @@ namespace eManagerSystem.Application.Catalog.Server
             {
                 if (clientIP.Any(ip => ip == IP) == true)
                 {
-                    ActiveUser(mssv);
+                    ActiveUser(mssv,IP);
                     string message = "Chap nhan success!";
                     SendMessage(message, IP, "Success");
                 }
@@ -426,6 +431,74 @@ namespace eManagerSystem.Application.Catalog.Server
                     client.Send(Serialize(sendData));
                 }
             }
+        }
+
+        public delegate void MessageHandler(object sender, MessageEventArgs args);
+        public event MessageHandler EventMessageHandler;
+        public class MessageEventArgs : EventArgs
+        {
+            public string mesage { get; set; }
+
+        }
+        public void EventMessageArgs(string mess)
+        {
+            MessageEventArgs args = new MessageEventArgs();
+
+            args.mesage = mess;
+            EventMessageHandler.Invoke(this, args);
+
+        }
+
+        public void Disconnect()
+        {
+                foreach (var client in clientList)
+                {
+                 
+                    clientList.Remove(client);
+                     client.Close();
+                    if (clientList.Count == 0)
+                    {
+                        break;
+
+                    }
+                }
+                               
+            EventMessageArgs("Disconnect success");   
+        }
+
+        public void ActiveControlClient()
+        {
+            foreach (Socket client in clientList)
+            {
+                SendData sendData = new SendData
+                {
+                    option = Serialize("Send ActiveControl"),
+                    data = Serialize("ActiveUser")
+                };
+                client.Send(Serialize(sendData));
+            }
+        }
+
+    
+        public event MessageHandler EventGetFilePathHandler;
+     
+        public void EventGetPathNameArgs(string mess)
+        {
+            MessageEventArgs args = new MessageEventArgs();
+
+            args.mesage = mess;
+            EventGetFilePathHandler.Invoke(this, args);
+
+        }
+
+        public string GetServerPath()
+        {
+            return pathName;
+        }
+
+        public void SetServerPath(string pathNames)
+        {
+            pathName = pathNames;
         }
     }
 }

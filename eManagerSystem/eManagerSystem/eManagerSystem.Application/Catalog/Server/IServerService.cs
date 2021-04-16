@@ -12,7 +12,10 @@ namespace eManagerSystem.Application.Catalog.Server
    public interface IServerService 
     {
         event ActiveHandler EventActiveHandler;
-     
+
+        event MessageHandler EventMessageHandler;
+
+        event MessageHandler EventGetFilePathHandler;
         void Connect();
          void SendFile(string filePath);
         void SendUser(string option,IEnumerable<object> students);
@@ -43,6 +46,15 @@ namespace eManagerSystem.Application.Catalog.Server
         void CheckActiveIpUser(string IP,string mssv);
 
         void SendMessage(string message, string IP,string type);
+
+        void Disconnect();
+
+        void ActiveControlClient();
+
+        string GetServerPath();
+
+        void SetServerPath(string pathName);
+
 
     }
 }

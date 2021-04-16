@@ -35,5 +35,10 @@ namespace FormServer
             }
         }
 
+      public  void DisablePC()
+        {
+            this.pnUser.Enabled = false;
+        }
+
     }
 }

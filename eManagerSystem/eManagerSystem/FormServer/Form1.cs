@@ -24,14 +24,15 @@ namespace FormServer
         List<StudentFromExcel> studentFromExcels;
         private Color ColorRed = Color.FromArgb(255, 95, 79);
         private Color ColorGreen = Color.FromArgb(54, 202, 56);
-
+        private Color Colordisable = Color.FromArgb(255, 0, 0);
         int counter = 0;
         System.Timers.Timer countdown;
         public Form1(IServerService server)
         {
             _server = server;
             _server.EventActiveHandler += _server_EventActiveHandler;
-         
+            _server.EventMessageHandler += _server_EventMessageHandler;
+            _server.EventGetFilePathHandler += _server_EventGetFilePathHandler;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             countdown = new System.Timers.Timer();
@@ -40,10 +41,18 @@ namespace FormServer
 
         }
 
-   
+        private void _server_EventGetFilePathHandler(object sender, ServerService.MessageEventArgs args)
+        {
+            if(tbSErverPath.Text != string.Empty)
+            {
+                _server.SetServerPath(tbSErverPath.Text);
+            }
+         
+        }
+
         private void _server_EventActiveHandler(object sender, ServerService.ActiveEventArgs args)
         {
-            UpdateUserControll(args.mssv);
+            UpdateUserControll(args.mssv, args.IP);
         }
 
         private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -55,31 +64,35 @@ namespace FormServer
             if (counter == 0)
             {
                 countdown.Stop();
-               
+
             }
         }
-        private void UpdateUserControll(string mssv)
+        private void UpdateUserControll(string mssv, string ip)
         {
-            foreach(var items in listUser)
+
+            foreach (var items in listUser)
             {
-                items.MSSV = mssv;
-                items.ColorUser = ColorGreen;   
-                         
-             }
+                if (items.clientIP == ip)
+                {
+                    items.MSSV = mssv;
+                    items.ColorUser = ColorGreen;
+                }
+
+            }
             LoadDisPlayUser();
 
         }
-       
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
             _server.Connect();
-            
+
         }
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
-          counter =  _server.BeginExam(txtThoiGianLamBai.Text,this.counter,countdown);
+            counter = _server.BeginExam(txtThoiGianLamBai.Text, this.counter, countdown);
 
         }
 
@@ -100,10 +113,10 @@ namespace FormServer
 
 
                 }
-                catch(Exception er)
+                catch (Exception er)
                 {
                     throw er;
-                 //   MessageBox.Show("Loi mo file");
+                    //   MessageBox.Show("Loi mo file");
 
                 }
             }
@@ -132,19 +145,19 @@ namespace FormServer
             }
         }
         private void AddListUser(string clientIP)
-        {     
-                    int index = 0;    
-                    index++;
-                    PC pC = new PC();
-                    pC.clientIP = clientIP;
-                    pC.pcName = index.ToString();
-                    pC.ColorUser = ColorRed;
-                    listUser.Add(pC);
+        {
+            int index = 0;
+            index++;
+            PC pC = new PC();
+            pC.clientIP = clientIP;
+            pC.pcName = index.ToString();
+            pC.ColorUser = ColorRed;
+            listUser.Add(pC);
         }
 
         private void cbCbonMonThi_Click(object sender, EventArgs e)
         {
-        
+
             IEnumerable<Subject> subjects = _server.getAllSubject();
             cbCbonMonThi.DataSource = subjects;
             cbCbonMonThi.DisplayMember = "SubjectName";
@@ -153,11 +166,11 @@ namespace FormServer
 
         private void cmdChapNhan_Click(object sender, EventArgs e)
         {
-            if(cbCbonMonThi.Text != string.Empty)
+            if (cbCbonMonThi.Text != string.Empty)
             {
                 _server.SendSubject(cbCbonMonThi.Text);
             }
-          
+
         }
 
         private void cmdNhapVungIP_Click(object sender, EventArgs e)
@@ -169,8 +182,8 @@ namespace FormServer
 
         private void FormSetIp_EventUpdateHandler(object sender, FormSetIp.UpdateEventArgs args)
         {
-           string IpClient = args.IPClient;
-            _server.SetIpUser(args._listIP);    
+            string IpClient = args.IPClient;
+            _server.SetIpUser(args._listIP);
             AddListUser(IpClient);
             LoadDisPlayUser();
         }
@@ -179,15 +192,15 @@ namespace FormServer
         {
             OpenFileDialog oFile = new OpenFileDialog();
             oFile.ShowDialog();
-            if(oFile.FileName != string.Empty)
+            if (oFile.FileName != string.Empty)
             {
                 string file = oFile.FileName;
                 string exetention = Path.GetExtension(file);
-                if(exetention.ToLower() ==".xls" || exetention.ToLower().Equals(".xlsx"))
+                if (exetention.ToLower() == ".xls" || exetention.ToLower().Equals(".xlsx"))
                 {
                     var excel = new ExcelQueryFactory(file);
                     var students = from s in excel.Worksheet<StudentFromExcel>("Sheet1")
-                                  select s;
+                                   select s;
                     studentFromExcels = new List<StudentFromExcel>();
                     foreach (var item in students)
                     {
@@ -197,7 +210,7 @@ namespace FormServer
                     {
                         SendStudentsFromExcel(studentFromExcels);
                     }
-                  
+
 
 
                 }
@@ -206,6 +219,58 @@ namespace FormServer
         private void SendStudentsFromExcel(List<StudentFromExcel> StudentFromExcels)
         {
             _server.SendUserFromFile("Send UserFromExcel", StudentFromExcels);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            _server.Disconnect();
+
+        }
+
+        private void _server_EventMessageHandler(object sender, ServerService.MessageEventArgs args)
+        {
+            MessageBox.Show(args.mesage);
+        }
+
+        void DisableEmptyUser(List<PC> Users)
+        {
+            foreach (var pc in Users)
+            {
+                if (pc.MSSV == null)
+                {
+                    pc.DisablePC();
+                    pc.ColorUser = Colordisable;
+                }
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if (listUser.Count > 0)
+            {
+                DisableEmptyUser(listUser);
+            }
+            else
+            {
+                MessageBox.Show("Khong co may nao ca");
+            }
+
+        }
+
+        private void cmdKichHoatAllClient_Click(object sender, EventArgs e)
+        {
+            _server.ActiveControlClient();
+        }
+
+        private void cmdChon_Click(object sender, EventArgs e)
+        {
+            {
+                
+                FolderBrowserDialog oFolder = new FolderBrowserDialog();
+                oFolder.ShowDialog();
+                string namePath = oFolder.SelectedPath;
+                tbSErverPath.Text = namePath;
+            }
         }
     }
 }

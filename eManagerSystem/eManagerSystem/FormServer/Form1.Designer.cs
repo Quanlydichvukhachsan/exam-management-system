@@ -91,9 +91,9 @@
             this.groupBox6.Controls.Add(this.lblTimeleft);
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox6.Location = new System.Drawing.Point(12, 384);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox6.Size = new System.Drawing.Size(142, 67);
             this.groupBox6.TabIndex = 47;
             this.groupBox6.TabStop = false;
@@ -127,6 +127,7 @@
             this.cmdKichHoatAllClient.TabIndex = 45;
             this.cmdKichHoatAllClient.Text = "Kích Hoạt Tất Cả Client";
             this.cmdKichHoatAllClient.UseVisualStyleBackColor = true;
+            this.cmdKichHoatAllClient.Click += new System.EventHandler(this.cmdKichHoatAllClient_Click);
             // 
             // cmdBatDauLamBai
             // 
@@ -155,6 +156,7 @@
             this.button11.TabIndex = 40;
             this.button11.Text = "Disable Tất Cả Các Máy Trống";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button10
             // 
@@ -184,6 +186,7 @@
             this.button4.TabIndex = 40;
             this.button4.Text = "Disconnect";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // groupBox5
             // 
@@ -275,6 +278,7 @@
             this.cmdChon.TabIndex = 35;
             this.cmdChon.Text = "Chọn";
             this.cmdChon.UseVisualStyleBackColor = true;
+            this.cmdChon.Click += new System.EventHandler(this.cmdChon_Click);
             // 
             // tbSErverPath
             // 
@@ -282,7 +286,6 @@
             this.tbSErverPath.Name = "tbSErverPath";
             this.tbSErverPath.Size = new System.Drawing.Size(120, 20);
             this.tbSErverPath.TabIndex = 34;
-            this.tbSErverPath.Text = "C:\\tam";
             // 
             // txtClientPath
             // 
