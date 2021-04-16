@@ -17,6 +17,7 @@ namespace FormServer
         {
             listIP = IPs;
             InitializeComponent();
+            cmdSubmit.Focus();
         }
 
         public delegate void UpdateHandler(object sender, UpdateEventArgs args);
@@ -46,6 +47,7 @@ namespace FormServer
                     listIP.Where(ip => ip == mtbIP.Text).FirstOrDefault();
                     listIP.Add(mtbIP.Text);
                     Updates();
+                    mtbIP.Text = "";
                 }
                 else
                 {

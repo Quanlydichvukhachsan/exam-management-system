@@ -269,6 +269,7 @@
             this.cmdChonClientPath.TabIndex = 36;
             this.cmdChonClientPath.Text = "Chọn";
             this.cmdChonClientPath.UseVisualStyleBackColor = true;
+            this.cmdChonClientPath.Click += new System.EventHandler(this.cmdChonClientPath_Click);
             // 
             // cmdChon
             // 
@@ -293,7 +294,6 @@
             this.txtClientPath.Name = "txtClientPath";
             this.txtClientPath.Size = new System.Drawing.Size(120, 20);
             this.txtClientPath.TabIndex = 34;
-            this.txtClientPath.Text = "C:\\tam";
             // 
             // label3
             // 
@@ -361,9 +361,9 @@
             // 
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.lstDeThi);
-            this.groupBox1.Location = new System.Drawing.Point(311, 499);
+            this.groupBox1.Location = new System.Drawing.Point(273, 499);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(347, 153);
+            this.groupBox1.Size = new System.Drawing.Size(385, 153);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chọn Đề Thi";
@@ -382,21 +382,16 @@
             // 
             this.lstDeThi.FormattingEnabled = true;
             this.lstDeThi.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.lstDeThi.Items.AddRange(new object[] {
-            "\\\\192.168.6.1\\dethi\\de1.htm",
-            "\\\\192.168.6.1\\dethi\\de2.htm",
-            "\\\\192.168.6.1\\dethi\\de3.htm",
-            "\\\\192.168.6.3\\dethi\\de4.htm"});
-            this.lstDeThi.Location = new System.Drawing.Point(7, 19);
+            this.lstDeThi.Location = new System.Drawing.Point(6, 19);
             this.lstDeThi.Name = "lstDeThi";
-            this.lstDeThi.Size = new System.Drawing.Size(240, 108);
+            this.lstDeThi.Size = new System.Drawing.Size(241, 108);
             this.lstDeThi.TabIndex = 30;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 602);
+            this.ClientSize = new System.Drawing.Size(1022, 648);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.MainGroupBox);

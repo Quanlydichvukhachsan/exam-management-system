@@ -500,5 +500,66 @@ namespace eManagerSystem.Application.Catalog.Server
         {
             pathName = pathNames;
         }
+
+        public void SendClientPath(string pathName)
+        {
+            foreach (Socket client in clientList)
+            {
+                SendData sendData = new SendData
+                {
+                    option = Serialize("Send ClientPath"),
+                    data = Serialize(pathName)
+                };
+                client.Send(Serialize(sendData));
+            }
+        }
+
+        public List<string> GetListClientIP()
+        {
+            return clientIP;
+        }
+
+        public void SendDSDeThiMany(List<string> dsDethi)
+        {
+            string dethi1 = dsDethi[0];
+            string dethi2 = dsDethi[1];
+               if(clientIP != null)
+            {
+                foreach(var item in clientIP.Select((Value, i) =>(Value,i)))
+                {
+                    var clientIp = item.Value;
+                    var client = clientList.Where<Socket>(cli => cli.RemoteEndPoint.ToString().Split(':')[0] == clientIp).FirstOrDefault();
+                    
+                    if(client != null)
+                    {
+                        var index = (item.i) + 1;
+
+                        if (index % 2 != 0)
+                        {
+                            SendFileMany(dethi1, client);
+                        }
+                        else
+                        {
+                            SendFileMany(dethi2, client);
+                        }
+                    }
+                       
+                }
+            }
+               
+        }
+
+         void SendFileMany(string filePath,Socket client)
+        {
+            if (filePath != String.Empty)
+            {
+                SendData sendData = new SendData
+                {
+                    option = Serialize("Send File"),
+                    data = GetFilePath(filePath)
+                };
+                client.Send(Serialize(sendData));
+            }
+        }
     }
 }

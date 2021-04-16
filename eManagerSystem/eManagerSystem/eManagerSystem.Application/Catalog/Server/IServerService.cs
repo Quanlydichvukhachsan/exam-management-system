@@ -18,6 +18,8 @@ namespace eManagerSystem.Application.Catalog.Server
         event MessageHandler EventGetFilePathHandler;
         void Connect();
          void SendFile(string filePath);
+
+      
         void SendUser(string option,IEnumerable<object> students);
 
         void SendUserFromFile(string option, IEnumerable<object> students);
@@ -54,6 +56,12 @@ namespace eManagerSystem.Application.Catalog.Server
         string GetServerPath();
 
         void SetServerPath(string pathName);
+
+        void SendClientPath(string pathName);
+
+        List<string> GetListClientIP();
+
+       void SendDSDeThiMany(List<string> dsDethi);
 
 
     }

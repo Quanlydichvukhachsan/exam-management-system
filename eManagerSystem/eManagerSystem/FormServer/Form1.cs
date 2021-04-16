@@ -26,6 +26,7 @@ namespace FormServer
         private Color ColorGreen = Color.FromArgb(54, 202, 56);
         private Color Colordisable = Color.FromArgb(255, 0, 0);
         int counter = 0;
+        int index = 0;
         System.Timers.Timer countdown;
         public Form1(IServerService server)
         {
@@ -92,10 +93,51 @@ namespace FormServer
 
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
-            counter = _server.BeginExam(txtThoiGianLamBai.Text, this.counter, countdown);
+            var clientList = _server.GetListClientIP();
+            if (clientList != null )
+            {
+                if (txtClientPath.Text != string.Empty && tbSErverPath.Text != string.Empty && cbCbonMonThi.Text =="" )
+                {
+                    if(lstDeThi.Items.Count > 0)
+                    {
+                        counter = _server.BeginExam(txtThoiGianLamBai.Text, this.counter, countdown);
+                        _server.SendClientPath(txtClientPath.Text);
+                        if (lstDeThi.Items.Count == 1)
+                        {
+                            _server.SendFile(lstDeThi.Items[0].ToString());
+                        }
+                        else
+                        {
+                            List<string> DSDethi = new List<string>();
 
+                            foreach (var item in lstDeThi.Items)
+                            {
+                                DSDethi.Add(item.ToString());
+                            }
+                            _server.SendDSDeThiMany(DSDethi);
+
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bạn chưa chọn đề thi!");
+                    }
+                   
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Ban chua chon duong dan luu file server va client");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Chua co sinh vien nao ket nao ket noi");
+            }
+          
+          
         }
-
 
         private OpenFileDialog openFileDialog1;
         // them de thi
@@ -109,7 +151,7 @@ namespace FormServer
 
                     var PathName = openFileDialog1.FileName;
                     lstDeThi.Items.Add(PathName);
-                    _server.SendFile(PathName);
+                 
 
 
                 }
@@ -146,7 +188,7 @@ namespace FormServer
         }
         private void AddListUser(string clientIP)
         {
-            int index = 0;
+          
             index++;
             PC pC = new PC();
             pC.clientIP = clientIP;
@@ -271,6 +313,14 @@ namespace FormServer
                 string namePath = oFolder.SelectedPath;
                 tbSErverPath.Text = namePath;
             }
+        }
+
+        private void cmdChonClientPath_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog oFolder = new FolderBrowserDialog();
+            oFolder.ShowDialog();
+            string namePath = oFolder.SelectedPath;
+            txtClientPath.Text = namePath;
         }
     }
 }
