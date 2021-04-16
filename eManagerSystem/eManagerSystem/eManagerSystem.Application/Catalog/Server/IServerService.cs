@@ -63,6 +63,9 @@ namespace eManagerSystem.Application.Catalog.Server
 
        void SendDSDeThiMany(List<string> dsDethi);
 
+        void LogOutUser();
+
+        void ShutDownUser();
 
     }
 }

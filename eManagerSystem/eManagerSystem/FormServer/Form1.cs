@@ -322,5 +322,15 @@ namespace FormServer
             string namePath = oFolder.SelectedPath;
             txtClientPath.Text = namePath;
         }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            _server.LogOutUser();
+        }
+
+        private void btnShutDown_Click(object sender, EventArgs e)
+        {
+            _server.ShutDownUser();
+        }
     }
 }

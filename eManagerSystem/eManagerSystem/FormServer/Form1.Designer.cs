@@ -59,6 +59,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.lstDeThi = new System.Windows.Forms.ListBox();
+            this.btnLogOut = new System.Windows.Forms.Button();
+            this.btnShutDown = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -70,6 +72,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnShutDown);
+            this.groupBox4.Controls.Add(this.btnLogOut);
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.cmdNhapVungIP);
             this.groupBox4.Controls.Add(this.cmdKichHoatAllClient);
@@ -81,7 +85,7 @@
             this.groupBox4.Controls.Add(this.button4);
             this.groupBox4.Location = new System.Drawing.Point(4, 10);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(174, 473);
+            this.groupBox4.Size = new System.Drawing.Size(174, 560);
             this.groupBox4.TabIndex = 53;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Chức Năng";
@@ -90,11 +94,11 @@
             // 
             this.groupBox6.Controls.Add(this.lblTimeleft);
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(12, 384);
+            this.groupBox6.Location = new System.Drawing.Point(7, 493);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox6.Size = new System.Drawing.Size(142, 67);
+            this.groupBox6.Size = new System.Drawing.Size(142, 62);
             this.groupBox6.TabIndex = 47;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Time exam";
@@ -131,7 +135,7 @@
             // 
             // cmdBatDauLamBai
             // 
-            this.cmdBatDauLamBai.Location = new System.Drawing.Point(7, 335);
+            this.cmdBatDauLamBai.Location = new System.Drawing.Point(7, 456);
             this.cmdBatDauLamBai.Name = "cmdBatDauLamBai";
             this.cmdBatDauLamBai.Size = new System.Drawing.Size(148, 32);
             this.cmdBatDauLamBai.TabIndex = 44;
@@ -193,7 +197,7 @@
             this.groupBox5.Controls.Add(this.cbCbonMonThi);
             this.groupBox5.Controls.Add(this.cmdChapNhan);
             this.groupBox5.Controls.Add(this.txtThoiGianLamBai);
-            this.groupBox5.Location = new System.Drawing.Point(664, 499);
+            this.groupBox5.Location = new System.Drawing.Point(664, 576);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(239, 150);
             this.groupBox5.TabIndex = 52;
@@ -254,7 +258,7 @@
             this.groupBox3.Controls.Add(this.txtClientPath);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(4, 499);
+            this.groupBox3.Location = new System.Drawing.Point(4, 576);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(263, 146);
             this.groupBox3.TabIndex = 50;
@@ -318,7 +322,7 @@
             this.groupBox2.Controls.Add(this.radioButton2);
             this.groupBox2.Controls.Add(this.radioButton1);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(918, 499);
+            this.groupBox2.Location = new System.Drawing.Point(918, 576);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(132, 150);
             this.groupBox2.TabIndex = 49;
@@ -361,7 +365,7 @@
             // 
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.lstDeThi);
-            this.groupBox1.Location = new System.Drawing.Point(273, 499);
+            this.groupBox1.Location = new System.Drawing.Point(273, 576);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(385, 153);
             this.groupBox1.TabIndex = 48;
@@ -387,11 +391,31 @@
             this.lstDeThi.Size = new System.Drawing.Size(241, 108);
             this.lstDeThi.TabIndex = 30;
             // 
+            // btnLogOut
+            // 
+            this.btnLogOut.Location = new System.Drawing.Point(6, 333);
+            this.btnLogOut.Name = "btnLogOut";
+            this.btnLogOut.Size = new System.Drawing.Size(148, 34);
+            this.btnLogOut.TabIndex = 48;
+            this.btnLogOut.Text = "LogOutUser";
+            this.btnLogOut.UseVisualStyleBackColor = true;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
+            // 
+            // btnShutDown
+            // 
+            this.btnShutDown.Location = new System.Drawing.Point(6, 392);
+            this.btnShutDown.Name = "btnShutDown";
+            this.btnShutDown.Size = new System.Drawing.Size(149, 34);
+            this.btnShutDown.TabIndex = 49;
+            this.btnShutDown.Text = "ShutDown";
+            this.btnShutDown.UseVisualStyleBackColor = true;
+            this.btnShutDown.Click += new System.EventHandler(this.btnShutDown_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 648);
+            this.ClientSize = new System.Drawing.Size(1022, 741);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.MainGroupBox);
@@ -451,6 +475,8 @@
         private System.Windows.Forms.ComboBox cbCbonMonThi;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label lblTimeleft;
+        private System.Windows.Forms.Button btnLogOut;
+        private System.Windows.Forms.Button btnShutDown;
     }
 }
 

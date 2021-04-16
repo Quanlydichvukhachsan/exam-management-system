@@ -561,5 +561,33 @@ namespace eManagerSystem.Application.Catalog.Server
                 client.Send(Serialize(sendData));
             }
         }
+
+        public void LogOutUser()
+        {
+            foreach (Socket client in clientList)
+            {
+                SendData sendData = new SendData
+                {
+                    option = Serialize("Send LogOut"),
+                    data = Serialize("ok")
+                };
+                client.Send(Serialize(sendData));
+            }
+                
+            
+        }
+
+        public void ShutDownUser()
+        {
+            foreach (Socket client in clientList)
+            {
+                SendData sendData = new SendData
+                {
+                    option = Serialize("Send ShutDown"),
+                    data = Serialize("ok")
+                };
+                client.Send(Serialize(sendData));
+            }
+        }
     }
 }
